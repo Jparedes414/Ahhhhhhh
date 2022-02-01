@@ -9,7 +9,7 @@ public class DrawingFilter implements PixelFilter, Drawable {
 
     @Override
     public DImage processImage(DImage img) {
-        // adk
+
         return img;
     }
 
