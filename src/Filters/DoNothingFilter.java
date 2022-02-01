@@ -5,7 +5,7 @@ import core.DImage;
 
 public class DoNothingFilter implements PixelFilter {
 
-    // Testing
+    //Test
 
     @Override
     public DImage processImage(DImage img) {
