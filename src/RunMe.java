@@ -5,6 +5,7 @@ public class RunMe {
         // --== Load an image to filter ==--
         //DisplayWindow.showFor("images/6.jpg", 800, 600);
 
+
         // --== Determine your input interactively with menus ==--
         DisplayWindow.getInputInteractively(800,600);
     }
