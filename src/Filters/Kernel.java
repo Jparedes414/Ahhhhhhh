@@ -52,7 +52,7 @@ public class Kernel implements PixelFilter {
                     {0, 1, 2}   };
     private double[][] kernel;
     public Kernel() {
-        kernel = gaussian;
+        kernel = embossKernel;
     }
     @Override
     public DImage processImage(DImage img) {
