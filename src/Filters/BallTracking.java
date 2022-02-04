@@ -30,10 +30,14 @@ public class BallTracking implements PixelFilter {
     private int[] CalcCenter(int x, int y, short[][] red, short[][] green, short[][] blue) {
         int[] ball_info = new int[2];
         int radY = 0;
+        int radX = 0;
         while (radY< red.length && Math.abs(red[x][y] - red[radY][y]) > MARGIN_OF_ERROR && Math.abs(green[x][y] - green[radY][y]) > MARGIN_OF_ERROR && blue[x][y] - blue[radY][y] > MARGIN_OF_ERROR){
             radY++;
         }
-        ball_info[0] = radY;
+        radY = radY/2;
+        while (radX< red[0].length && Math.abs(red[x][y] - red[radY][radX]) > MARGIN_OF_ERROR && Math.abs(green[x][y] - green[radY][radX]) > MARGIN_OF_ERROR && blue[x][y] - blue[radY][radX] > MARGIN_OF_ERROR){
+            radX++;
+        }
         return ball_info;
     }
 
