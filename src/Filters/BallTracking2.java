@@ -3,29 +3,57 @@ package Filters;
 import Interfaces.PixelFilter;
 import core.DImage;
 
-public class BallTracking implements PixelFilter {
+public class BallTracking2 implements PixelFilter {
     int CHECK = 10;
-    int MARGIN_OF_ERROR = 40;
+    int MARGIN_OF_ERROR = 50;
     int RADIUS_CHECK = 5;
-    public BallTracking() {
-
+    int targetRed = 180;
+    int targetGreen = 75;
+    int targetBlue = 10;
+    public BallTracking2() {
     }
+
 
     @Override
     public DImage processImage(DImage img) {
+        short[][] grid = img.getBWPixelGrid();
         short[][] red = img.getRedChannel();
         short[][] blue = img.getBlueChannel();
         short[][] green = img.getGreenChannel();
         for (int i = 0; i < red.length; i++) {
             for (int j = 0; j < red[0].length; j++) {
-                if (checkDown(i, j, red, green, blue)){
-                    int[] ball_info = CalcCenter(i, j, red, green, blue);
+                if (inRangeofTargetVal(i, j, red, green, blue)) {
+                    grid[i][j] = 0;
+                } else{
+                    grid[i][j] = 255;
                 }
             }
         }
+        for (int i = 0; i < red.length; i++) {
+            for (int j = 0; j < red[0].length; j++) {
+
+            }
+
+        }
+
+/*
         img.setColorChannels(red, green, blue);
+*/
+        img.setPixels(grid);
         return img;
     }
+
+    private boolean inRangeofTargetVal(int row, int col, short[][]red, short[][]green, short[][]blue) {
+        if (red[row][col] > targetRed - MARGIN_OF_ERROR && red[row][col] < targetRed + MARGIN_OF_ERROR ) {
+            if (green[row][col] > targetGreen - MARGIN_OF_ERROR && green[row][col] < targetGreen + MARGIN_OF_ERROR) {
+                if (blue[row][col] > targetBlue - MARGIN_OF_ERROR && blue[row][col] < targetBlue + MARGIN_OF_ERROR) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     private int[] CalcCenter(int x, int y, short[][] red, short[][] green, short[][] blue) {
         int[] ball_info = new int[2];
