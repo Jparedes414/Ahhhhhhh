@@ -10,6 +10,8 @@ public class BallTracking2 implements PixelFilter {
     int targetRed = 180;
     int targetGreen = 75;
     int targetBlue = 10;
+    int middleRow, middleCol;
+    int rowTotal = 0, colTotal = 0, total = 0;
     public BallTracking2() {
     }
 
@@ -22,19 +24,32 @@ public class BallTracking2 implements PixelFilter {
         short[][] green = img.getGreenChannel();
         for (int i = 0; i < red.length; i++) {
             for (int j = 0; j < red[0].length; j++) {
-                if (inRangeofTargetVal(i, j, red, green, blue)) {
+                if (inRangeofTargetVal(red[i][j], green[i][j], blue[i][j])) {
                     grid[i][j] = 0;
                 } else{
                     grid[i][j] = 255;
                 }
+//                if (grid[i][j] == 0){
+//                    check(grid, i, j);
+//                }
             }
         }
         for (int i = 0; i < red.length; i++) {
             for (int j = 0; j < red[0].length; j++) {
-
+                if (grid[i][j] == 0) {
+                    rowTotal =  rowTotal + i;
+                    colTotal = colTotal + j;
+                    total = total + 1;
+                }
             }
-
         }
+        middleRow = rowTotal / total;
+        middleCol = colTotal / total;
+        System.out.println(middleRow + ", " + middleCol);
+        /*
+        loop over all white pixels.
+        find the average row-value and average col-value.
+         */
 
 /*
         img.setColorChannels(red, green, blue);
@@ -43,10 +58,10 @@ public class BallTracking2 implements PixelFilter {
         return img;
     }
 
-    private boolean inRangeofTargetVal(int row, int col, short[][]red, short[][]green, short[][]blue) {
-        if (red[row][col] > targetRed - MARGIN_OF_ERROR && red[row][col] < targetRed + MARGIN_OF_ERROR ) {
-            if (green[row][col] > targetGreen - MARGIN_OF_ERROR && green[row][col] < targetGreen + MARGIN_OF_ERROR) {
-                if (blue[row][col] > targetBlue - MARGIN_OF_ERROR && blue[row][col] < targetBlue + MARGIN_OF_ERROR) {
+    private boolean inRangeofTargetVal(int red, int green, int blue) {
+        if (red > targetRed - MARGIN_OF_ERROR && red < targetRed + MARGIN_OF_ERROR ) {
+            if (green > targetGreen - MARGIN_OF_ERROR && green < targetGreen + MARGIN_OF_ERROR) {
+                if (blue > targetBlue - MARGIN_OF_ERROR && blue < targetBlue + MARGIN_OF_ERROR) {
                     return true;
                 }
             }
@@ -54,33 +69,30 @@ public class BallTracking2 implements PixelFilter {
         return false;
     }
 
-
-    private int[] CalcCenter(int x, int y, short[][] red, short[][] green, short[][] blue) {
-        int[] ball_info = new int[2];
-        int radY = 0;
-        int radX = 0;
-        while (radY< red.length && Math.abs(red[x][y] - red[radY][y]) > MARGIN_OF_ERROR && Math.abs(green[x][y] - green[radY][y]) > MARGIN_OF_ERROR && blue[x][y] - blue[radY][y] > MARGIN_OF_ERROR){
-            radY++;
-        }
-        radY = radY/2;
-        while (radX< red[0].length && Math.abs(red[x][y] - red[radY][radX]) > MARGIN_OF_ERROR && Math.abs(green[x][y] - green[radY][radX]) > MARGIN_OF_ERROR && blue[x][y] - blue[radY][radX] > MARGIN_OF_ERROR){
-            radX++;
-        }
-        return ball_info;
-    }
-
-    public boolean checkDown(int x, int y, short[][] red, short[][] green, short[][] blue){
-        for (int i = 1; i < CHECK; i++) {
-            if (Math.abs(red[x][y] - red[i][y]) > MARGIN_OF_ERROR){
-                return false;
-            }
-            if (Math.abs(green[x][y] - green[i][y]) > MARGIN_OF_ERROR){
-                return false;
-            }
-            if (Math.abs(blue[x][y] - blue[i][y]) > MARGIN_OF_ERROR){
-                return false;
-            }
-        }
-        return true;
-    }
+//    public boolean check(short[][]grid, int row, int col){
+//        for (int i = 1; i < CHECK; i++) {
+//            if (grid[row][col + i] == 0){
+//
+//                return false;
+//            }
+//        }
+//        int j = col;
+//        while(grid[row][j] != 0 && j < grid[0].length){
+//            j++;
+//
+//        }
+//        top = row;
+//        bottom = j;
+//        middleCol = top + bottom / 2;
+//        int r = row;
+//
+//        while (grid[r][middleCol] != 0 && r > 0){
+//            r--;
+//        }
+//        left = r;
+//        right = row + r;
+//        middleRow = left + right / 2;
+//        System.out.println(middleRow + ", " + middleCol);
+//        return true;
+//    }
 }
