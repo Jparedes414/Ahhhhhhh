@@ -51,6 +51,7 @@ public class BallTracking2 implements PixelFilter {
         rowTotal = 0;
         colTotal = 0;
         total = 0;
+        //
 
 
 
