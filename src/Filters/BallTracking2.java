@@ -46,14 +46,14 @@ public class BallTracking2 implements PixelFilter {
         middleRow = rowTotal / total;
         middleCol = colTotal / total;
         System.out.println(middleRow + ", " + middleCol);
-        /*
-        loop over all white pixels.
-        find the average row-value and average col-value.
-         */
+        middleRow = 0;
+        middleCol = 0;
+        rowTotal = 0;
+        colTotal = 0;
+        total = 0;
 
-/*
-        img.setColorChannels(red, green, blue);
-*/
+
+
         img.setPixels(grid);
         return img;
     }
