@@ -13,10 +13,15 @@ public class BallTracking2 implements PixelFilter {
     int targetRed1 = 35;
     int targetGreen1 = 97;
     int targetBlue1 = 40;
+    int targetRed2 = 0;
+    int targetGreen2 = 15;
+    int targetBlue2 = 95;
     int middleRow, middleCol;
     int middleRow1, middleCol1;
+    int middleRow2, middleCol2;
     int rowTotal = 0, colTotal = 0, total = 0;
     int rowTotal1 = 0, colTotal1 = 0, total1 = 0;
+    int rowTotal2 = 0, colTotal2 = 0, total2 = 0;
 
     public BallTracking2() {
     }
@@ -37,6 +42,9 @@ public class BallTracking2 implements PixelFilter {
                     grid[i][j] = 1;
                     green[i][j] = 255;
 
+                }else if(inRangeofTargetVal(red[i][j], green[i][j], blue[i][j], "blue")){
+                    grid[i][j] = 2;
+                    blue[i][j] = 255;
                 } else{
                     grid[i][j] = 255;
                 }
@@ -55,18 +63,26 @@ public class BallTracking2 implements PixelFilter {
                     rowTotal1 =  rowTotal1 + i;
                     colTotal1 = colTotal1 + j;
                     total1 = total1 + 1;
+                } else if ( grid[i][j] == 2){
+                    rowTotal2 =  rowTotal2 + i;
+                    colTotal2= colTotal2 + j;
+                    total2 = total2 + 1;
                 }
             }
         }
         if (total > 1) {
             middleRow = rowTotal / total;
             middleCol = colTotal / total;
-            System.out.println(middleRow + ", " + middleCol + "     " + middleRow1 + ", " + middleCol1);
         }
         if (total1 > 1) {
             middleRow1 = rowTotal1 / total1;
             middleCol1 = colTotal1 / total1;
         }
+        if (total2 > 1) {
+            middleRow2 = rowTotal2 / total2;
+            middleCol2 = colTotal2 / total2;
+        }
+        System.out.println(middleRow + ", " + middleCol + "     " + middleRow1 + ", " + middleCol1 + "     " + middleRow2 + ", " + middleCol2);
         middleRow = 0;
         middleCol = 0;
         rowTotal = 0;
@@ -77,6 +93,11 @@ public class BallTracking2 implements PixelFilter {
         rowTotal1 = 0;
         colTotal1 = 0;
         total1 = 0;
+        middleRow2 = 0;
+        middleCol2 = 0;
+        rowTotal2 = 0;
+        colTotal2 = 0;
+        total2 = 0;
         //
 
 
@@ -102,34 +123,15 @@ public class BallTracking2 implements PixelFilter {
                     }
                 }
             }
+        }else if (color.equals("blue")){
+            if (red > targetRed2 - MARGIN_OF_ERROR && red < targetRed2 + MARGIN_OF_ERROR) {
+                if (green > targetGreen2 - MARGIN_OF_ERROR && green < targetGreen2 + MARGIN_OF_ERROR) {
+                    if (blue > targetBlue2 - MARGIN_OF_ERROR && blue < targetBlue2 + MARGIN_OF_ERROR) {
+                        return true;
+                    }
+                }
+            }
         }
         return false;
     }
-
-//    public boolean check(short[][]grid, int row, int col){
-//        for (int i = 1; i < CHECK; i++) {
-//            if (grid[row][col + i] == 0){
-//
-//                return false;
-//            }
-//        }
-//        int j = col;
-//        while(grid[row][j] != 0 && j < grid[0].length){
-//            j++;
-//
-//        }
-//        top = row;
-//        bottom = j;
-//        middleCol = top + bottom / 2;
-//        int r = row;
-//
-//        while (grid[r][middleCol] != 0 && r > 0){
-//            r--;
-//        }
-//        left = r;
-//        right = row + r;
-//        middleRow = left + right / 2;
-//        System.out.println(middleRow + ", " + middleCol);
-//        return true;
-//    }
 }
