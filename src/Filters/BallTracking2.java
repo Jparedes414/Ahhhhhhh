@@ -66,7 +66,7 @@ public class BallTracking2 implements PixelFilter {
         if (total1 > 1) {
             middleRow1 = rowTotal1 / total1;
             middleCol1 = colTotal1 / total1;
-            System.out.println("GREEN BALL");
+            System.out.print("     " + middleRow1 + ", " + middleCol1);
         }
         middleRow = 0;
         middleCol = 0;
@@ -82,7 +82,7 @@ public class BallTracking2 implements PixelFilter {
 
 
 
-        img.setColorChannels(blue, red, green);
+        img.setColorChannels(red, green, blue);
         return img;
     }
 
