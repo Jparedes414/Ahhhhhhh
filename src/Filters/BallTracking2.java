@@ -61,12 +61,11 @@ public class BallTracking2 implements PixelFilter {
         if (total > 1) {
             middleRow = rowTotal / total;
             middleCol = colTotal / total;
-            System.out.println(middleRow + ", " + middleCol);
+            System.out.println(middleRow + ", " + middleCol + "     " + middleRow1 + ", " + middleCol1);
         }
         if (total1 > 1) {
             middleRow1 = rowTotal1 / total1;
             middleCol1 = colTotal1 / total1;
-            System.out.print("     " + middleRow1 + ", " + middleCol1);
         }
         middleRow = 0;
         middleCol = 0;
