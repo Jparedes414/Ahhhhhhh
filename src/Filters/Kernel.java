@@ -3,6 +3,8 @@ package Filters;
 import Interfaces.PixelFilter;
 import core.DImage;
 
+import javax.swing.*;
+
 public class Kernel implements PixelFilter {
     private double[][] boxBlur = {
             {1,1,1,1,1,1,1},
@@ -52,8 +54,7 @@ public class Kernel implements PixelFilter {
                     {0, 1, 2}   };
     private double[][] kernel;
     public Kernel() {
-        kernel = embossKernel;
-    }
+        kernel = embossKernel;}
     @Override
     public DImage processImage(DImage img) {
         short[][] red = img.getRedChannel();
