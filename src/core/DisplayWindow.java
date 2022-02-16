@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Display class for working with image filters
@@ -163,13 +164,21 @@ public class DisplayWindow extends PApplet {
     public void draw() {
         background(200);
         if (source == IMAGE) {
-            applyFilterToImage(inputImage.getPImage());
+            try {
+                applyFilterToImage(inputImage.getPImage());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         if (source == WEBCAM) {
             if (webcam == null) return;
             BufferedImage img = webcam.getImage();
             if (img == null) return;
-            applyFilterToImage(new PImage(img));
+            try {
+                applyFilterToImage(new PImage(img));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         if (frame == null) {
             return;
@@ -255,7 +264,7 @@ public class DisplayWindow extends PApplet {
         }
     }
 
-    public void applyFilterToImage(PImage img) {
+    public void applyFilterToImage(PImage img) throws IOException {
         if (paused) return;
 
         oldFilteredFrame = filteredFrame;
@@ -268,7 +277,7 @@ public class DisplayWindow extends PApplet {
         loading = false;
     }
 
-    public void movieEvent(Movie m) {
+    public void movieEvent(Movie m) throws IOException {
         if (paused) return;
 
         oldFilteredFrame = filteredFrame;
@@ -282,7 +291,7 @@ public class DisplayWindow extends PApplet {
         loading = false;
     }
 
-    private DImage runFilters(DImage frameToFilter) {
+    private DImage runFilters(DImage frameToFilter) throws IOException {
         if (filter != null) return filter.processImage(frameToFilter);
         return frameToFilter;
     }

@@ -3,6 +3,8 @@ package Filters;
 import Interfaces.PixelFilter;
 import core.DImage;
 
+import java.util.ArrayList;
+
 public class BallTracking2 implements PixelFilter {
     int CHECK = 10;
     int MARGIN_OF_ERROR = 25;
@@ -33,6 +35,10 @@ public class BallTracking2 implements PixelFilter {
         short[][] red = img.getRedChannel();
         short[][] blue = img.getBlueChannel();
         short[][] green = img.getGreenChannel();
+        ArrayList<Ball> balls = new ArrayList<>();
+        balls.add(new Ball(targetRed, targetGreen, targetBlue, middleRow, middleCol, "red"));
+        balls.add(new Ball(targetRed1, targetGreen1, targetBlue1, middleRow1, middleCol1, "red"));
+        balls.add(new Ball(targetRed2, targetGreen2, targetBlue2, middleRow2, middleCol2, "red"));
         for (int i = 0; i < red.length; i++) {
             for (int j = 0; j < red[0].length; j++) {
                 if (inRangeofTargetVal(red[i][j], green[i][j], blue[i][j], "red")) {
@@ -83,22 +89,7 @@ public class BallTracking2 implements PixelFilter {
             middleCol2 = colTotal2 / total2;
         }
         System.out.println(middleRow + ", " + middleCol + "     " + middleRow1 + ", " + middleCol1 + "     " + middleRow2 + ", " + middleCol2);
-        middleRow = 0;
-        middleCol = 0;
-        rowTotal = 0;
-        colTotal = 0;
-        total = 0;
-        middleRow1 = 0;
-        middleCol1 = 0;
-        rowTotal1 = 0;
-        colTotal1 = 0;
-        total1 = 0;
-        middleRow2 = 0;
-        middleCol2 = 0;
-        rowTotal2 = 0;
-        colTotal2 = 0;
-        total2 = 0;
-        //
+
 
 
 
@@ -106,29 +97,28 @@ public class BallTracking2 implements PixelFilter {
         return img;
     }
 
-    private boolean inRangeofTargetVal(int red, int green, int blue, String color) {
+    public boolean inRangeofTargetVal(int red, int green, int blue, String color) {
         if (color.equals("red")) {
-            if (red > targetRed - MARGIN_OF_ERROR && red < targetRed + MARGIN_OF_ERROR) {
-                if (green > targetGreen - MARGIN_OF_ERROR && green < targetGreen + MARGIN_OF_ERROR) {
-                    if (blue > targetBlue - MARGIN_OF_ERROR && blue < targetBlue + MARGIN_OF_ERROR) {
-                        return true;
-                    }
-                }
+            if (Doink(red, green, blue, targetRed, targetGreen, targetBlue)){
+                return true;
             }
         }else if (color.equals("green")){
-            if (red > targetRed1 - MARGIN_OF_ERROR && red < targetRed1 + MARGIN_OF_ERROR) {
-                if (green > targetGreen1 - MARGIN_OF_ERROR && green < targetGreen1 + MARGIN_OF_ERROR) {
-                    if (blue > targetBlue1 - MARGIN_OF_ERROR && blue < targetBlue1 + MARGIN_OF_ERROR) {
-                        return true;
-                    }
-                }
+            if (Doink(red, green, blue, targetRed1, targetGreen1, targetBlue1)){
+                return true;
             }
         }else if (color.equals("blue")){
-            if (red > targetRed2 - MARGIN_OF_ERROR && red < targetRed2 + MARGIN_OF_ERROR) {
-                if (green > targetGreen2 - MARGIN_OF_ERROR && green < targetGreen2 + MARGIN_OF_ERROR) {
-                    if (blue > targetBlue2 - MARGIN_OF_ERROR && blue < targetBlue2 + MARGIN_OF_ERROR) {
-                        return true;
-                    }
+            if (Doink(red, green, blue, targetRed2, targetGreen2, targetBlue2)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean Doink(int red, int green, int blue, int targetRed, int targetGreen, int targetBlue){
+        if (red > targetRed - MARGIN_OF_ERROR && red < targetRed + MARGIN_OF_ERROR) {
+            if (green > targetGreen - MARGIN_OF_ERROR && green < targetGreen + MARGIN_OF_ERROR) {
+                if (blue > targetBlue - MARGIN_OF_ERROR && blue < targetBlue + MARGIN_OF_ERROR) {
+                    return true;
                 }
             }
         }
