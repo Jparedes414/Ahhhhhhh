@@ -31,26 +31,49 @@ public class BallTracking2 implements PixelFilter {
 
     @Override
     public DImage processImage(DImage img) {
+        middleRow = 0;
+        middleCol = 0;
+        middleRow1 = 0;
+        middleCol1 = 0;
+        middleRow2 = 0;
+        middleCol2 = 0;
+        rowTotal = 0;
+        colTotal = 0;
+        total = 0;
+        rowTotal1 = 0;
+        colTotal1 = 0;
+        total1 = 0;
+        rowTotal2 = 0;
+        colTotal2 = 0;
+        total2 = 0;
         short[][] grid = img.getBWPixelGrid();
         short[][] red = img.getRedChannel();
         short[][] blue = img.getBlueChannel();
         short[][] green = img.getGreenChannel();
-        ArrayList<Ball> balls = new ArrayList<>();
-        balls.add(new Ball(targetRed, targetGreen, targetBlue, middleRow, middleCol, "red"));
-        balls.add(new Ball(targetRed1, targetGreen1, targetBlue1, middleRow1, middleCol1, "red"));
-        balls.add(new Ball(targetRed2, targetGreen2, targetBlue2, middleRow2, middleCol2, "red"));
+        //ArrayList<Ball> balls = new ArrayList<>();
+        //balls.add(new Ball(targetRed, targetGreen, targetBlue, middleRow, middleCol, "red"));
+        //balls.add(new Ball(targetRed1, targetGreen1, targetBlue1, middleRow1, middleCol1, "red"));
+        //balls.add(new Ball(targetRed2, targetGreen2, targetBlue2, middleRow2, middleCol2, "red"));
         for (int i = 0; i < red.length; i++) {
             for (int j = 0; j < red[0].length; j++) {
                 if (inRangeofTargetVal(red[i][j], green[i][j], blue[i][j], "red")) {
                     grid[i][j] = 0;
                     red[i][j] = 255;
+                    rowTotal =  rowTotal + i;
+                    colTotal = colTotal + j;
+                    total = total + 1;
                 }else if (inRangeofTargetVal(red[i][j], green[i][j], blue[i][j], "green")) {
                     grid[i][j] = 1;
                     green[i][j] = 255;
-
+                    rowTotal1 =  rowTotal1 + i;
+                    colTotal1 = colTotal1 + j;
+                    total1 = total1 + 1;
                 }else if(inRangeofTargetVal(red[i][j], green[i][j], blue[i][j], "blue")){
                     grid[i][j] = 2;
                     blue[i][j] = 255;
+                    rowTotal2 =  rowTotal2 + i;
+                    colTotal2= colTotal2 + j;
+                    total2 = total2 + 1;
                 } else{
                     grid[i][j] = 255;
                 }
@@ -59,23 +82,7 @@ public class BallTracking2 implements PixelFilter {
 //                }
             }
         }
-        for (int i = 0; i < red.length; i++) {
-            for (int j = 0; j < red[0].length; j++) {
-                if (grid[i][j] == 0) {
-                    rowTotal =  rowTotal + i;
-                    colTotal = colTotal + j;
-                    total = total + 1;
-                } else if ( grid[i][j] == 1){
-                    rowTotal1 =  rowTotal1 + i;
-                    colTotal1 = colTotal1 + j;
-                    total1 = total1 + 1;
-                } else if ( grid[i][j] == 2){
-                    rowTotal2 =  rowTotal2 + i;
-                    colTotal2= colTotal2 + j;
-                    total2 = total2 + 1;
-                }
-            }
-        }
+
         if (total > 1) {
             middleRow = rowTotal / total;
             middleCol = colTotal / total;
